@@ -16,6 +16,9 @@ class Task(Base):
     # title (required)
     title = Column(String(200),nullable=False)
 
+    # this field is reuired by crud.py
+    description = Column(Text, nullable=True)
+
     #task compeletion status default false
     completed = Column(Boolean,default=False,nullable=False)
 
