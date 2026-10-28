@@ -36,14 +36,14 @@ def get_tasks(db:Session,skip:int = 0,limit:int = 100):
 # get one task by its ID
 def get_task(db:Session,task_id:int):
 
-    return(db.query(models.Tassk).filter(models.Task.id == task_id).first())
+    return(db.query(models.Task).filter(models.Task.id == task_id).first())
 
 
 #Update an existing task
 
 def update_task(db:Session,db_task:models.Task,task_update:schemas.TaskUpdate):
 
-    update_data = task_update.model_dump(execute_unset = True)
+    update_data = task_update.model_dump(exclude_unset = True)
 
     if "title" in update_data and update_data['title'] is not None:
         update_data['title'] = update_data['title'].strip()
