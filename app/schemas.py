@@ -25,6 +25,14 @@ class TaskCreate(BaseModel):
     completed :Optional[bool] = None
 
 
+# Field allowed when updating a task
+
+class TaskUpdate(BaseModel):
+    title:Optional[str] = Field(default = None,min_length=1,max_length=200)
+    description:Optional[str] = None
+    completed :Optional[bool] = None
+
+
 # field return by the API
 
 class TaskResponse(BaseModel):
