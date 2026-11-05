@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Depends,HTTPException,status
+from fastapi import FastAPI,Depends,HTTPException,status,Query
 from sqlalchemy.orm import Session 
 from typing import List
 
@@ -42,11 +42,13 @@ def create_task(task:schemas.TaskCreate, db:Session = Depends(get_db)):
 
 # get all tasks
 @app.get("/tasks",response_model = List[schemas.TaskResponse])
-def read_tasks(skip: int = 0,limit: int = 100,db:Session = Depends(get_db)):
+def read_tasks(skip: int = Query(default=0,ge=0,description="Number of task to skip"),
+               limit:int = Query(default=100,ge=1,le=100,description="Maximum Task to return"),
+               db:Session = Depends(get_db)):
 
-    if skip < 0 or limit < 1 or limit >100:
-        raise HTTPException(status_code = status.HTTP_422_UNPROCESSABLE_ENTITY,
-                            detail="skip must be non-negative and limit must be 1 and 100")
+    # if skip < 0 or limit < 1 or limit >100:
+    #     raise HTTPException(status_code = status.HTTP_422_UNPROCESSABLE_ENTITY,
+    #                         detail="skip must be non-negative and limit must be 1 and 100")
 
 
     return crud.get_tasks(db,skip = skip,limit=limit)
